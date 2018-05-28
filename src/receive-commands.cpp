@@ -1,9 +1,10 @@
 #include "Particle.h"
-#include "perform-commands.cpp"
 
 class ReceiveCommands {
 public:
-  ReceiveCommands(int port) {
+  ReceiveCommands(int port, void perform (uint8_t)) {
+    this->perform = perform;
+
     server = new TCPServer(port);
 
     server->begin();
@@ -11,7 +12,7 @@ public:
 
   void forwardReceived(uint8_t *data, size_t size) {
     for (size_t idx = 0; idx < size; ++idx) {
-      performer.perform(data[idx]);
+      perform(data[idx]);
     }
   }
 
@@ -38,7 +39,7 @@ public:
   }
 
 private:
-  PerformCommands performer;
+  void (*perform) (uint8_t);
   TCPServer *server;
   TCPClient client;
 };

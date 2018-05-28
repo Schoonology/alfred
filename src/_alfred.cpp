@@ -4,9 +4,9 @@
 
 class Alfred {
 public:
-  Alfred() {
+  Alfred(void perform (uint8_t)) {
     beacon = new SendBeacon(7777);
-    receiver = new ReceiveCommands(7778);
+    receiver = new ReceiveCommands(7778, perform);
   }
 
   void update() {

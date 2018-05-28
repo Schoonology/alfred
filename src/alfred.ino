@@ -2,6 +2,20 @@
 
 Alfred *myself;
 
+void perform(uint8_t command) {
+  switch (command) {
+    case 0:
+      Serial.println("NULL command received.");
+      break;
+    case 1:
+      Serial.println("ON command received.");
+      break;
+    case 255:
+      Serial.println("RESET command received.");
+      break;
+  }
+}
+
 void setup() {
   Serial.print("SSID: ");
   Serial.println(WiFi.SSID());
@@ -10,7 +24,7 @@ void setup() {
   Serial.print("Device ID: ");
   Serial.println(System.deviceID());
 
-  myself = new Alfred();
+  myself = new Alfred(perform);
 }
 
 void loop() {
