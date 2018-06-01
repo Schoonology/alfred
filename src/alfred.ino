@@ -1,6 +1,6 @@
-#include "_alfred.cpp"
+#include "Quantum.h"
 
-Alfred *myself;
+Quantum alfred(perform);
 
 void perform(uint8_t command) {
   switch (command) {
@@ -24,12 +24,8 @@ void setup() {
   Serial.print("Device ID: ");
   Serial.println(System.deviceID());
 
-  myself = new Alfred(perform);
+  alfred.begin();
 }
 
 void loop() {
-  myself->update();
-
-  // We'll only update at approx. 1Hz.
-  delay(1000);
 }

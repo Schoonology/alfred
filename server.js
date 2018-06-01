@@ -10,11 +10,11 @@ const beaconSocket = dgram.createSocket('udp4')
 const socketCache = {}
 
 beaconSocket.on('message', (buffer, udpinfo) => {
-  if (String(buffer) === '42003d000f47343438323536') {
+  console.log('Received:', buffer)
+  console.log('Info: %j', udpinfo)
+
+  if (buffer.equals(new Buffer('42003d000f47343438323536', 'hex'))) {
     sendCommand(udpinfo.address)
-  } else {
-    console.log('Received:', buffer)
-    console.log('Info: %j', udpinfo)
   }
 })
 
@@ -56,12 +56,11 @@ function ensureSocket(address) {
 
       socket.on('end', function () {
         console.log('Disconnected.')
-
-        socketCache[address] = null
       })
 
       socket.on('close', function () {
         console.log('Closed.')
+        socketCache[address] = null
       })
 
       socket.on('error', function (err) {
