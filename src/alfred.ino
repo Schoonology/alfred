@@ -1,17 +1,31 @@
 #include "Quantum.h"
+#include "Roomba.h"
 
 Quantum alfred(perform);
 
 void perform(uint8_t command) {
+  Serial.printf("Received: %d\n", command);
+
   switch (command) {
-    case 0:
-      Serial.println("NULL command received.");
-      break;
     case 1:
       Serial.println("ON command received.");
+      Roomba::wake();
+      Roomba::start();
+      delay(200);
+      break;
+    case 2:
+      Serial.println("CLEAN command received.");
+      Roomba::clean();
+      break;
+    case 4:
+      Serial.println("SLEEP command received.");
+      Roomba::sleep();
+      delay(100);
       break;
     case 255:
       Serial.println("RESET command received.");
+      Roomba::_reset();
+      System.enterSafeMode();
       break;
   }
 }
@@ -24,6 +38,7 @@ void setup() {
   Serial.print("Device ID: ");
   Serial.println(System.deviceID());
 
+  Roomba::begin();
   alfred.begin();
 }
 
