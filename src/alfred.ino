@@ -11,11 +11,15 @@ void perform(uint8_t command) {
       Serial.println("ON command received.");
       Roomba::wake();
       Roomba::start();
-      delay(200);
+      delay(400);
       break;
     case 2:
       Serial.println("CLEAN command received.");
       Roomba::clean();
+      break;
+    case 3:
+      Serial.println("DOCK command received.");
+      Roomba::dock();
       break;
     case 4:
       Serial.println("SLEEP command received.");
